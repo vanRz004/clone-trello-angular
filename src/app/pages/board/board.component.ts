@@ -3,11 +3,12 @@ import { NavbarComponent } from "../../components/navbar/navbar.component";
 import { CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem, CdkDropList, CdkDrag, CdkDropListGroup } from '@angular/cdk/drag-drop';
 import { Columns, ToDo } from '../../components/models/toddo.model';
 import { CommonModule } from '@angular/common';
-
+import { Dialog } from '@angular/cdk/dialog';
+import { TodoDialogComponent } from '../../components/todo-dialog/todo-dialog.component';
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [NavbarComponent, DragDropModule, CdkDropList, CdkDrag, CdkDropListGroup, CommonModule,],
+  imports: [NavbarComponent, DragDropModule, CdkDropList, CdkDrag, CdkDropListGroup, CommonModule],
   templateUrl: './board.component.html',
   styles: [
     ` .cdk-drag-animating {
@@ -34,6 +35,12 @@ import { CommonModule } from '@angular/common';
   ]
 })
 export class BoardComponent {
+  constructor(private dialog: Dialog) { }
+
+
+  // close(){
+  //   this.dialogRef.close();
+  // }
 
   columns: Columns[] =
     [{
@@ -113,5 +120,16 @@ export class BoardComponent {
 
   addColumn(columnName: string) {
     this.columns.push({ title: columnName, todos: [] })
+  }
+
+  openDialog(todo : ToDo ) {
+    const dialogRef = this.dialog.open(TodoDialogComponent, {
+      minWidth: '300px', maxWidth: '50%', data:{
+        todo
+      }
+    });
+    dialogRef.closed.subscribe((output)=>{
+      console.log(output)
+    })
   }
 }

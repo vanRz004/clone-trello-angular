@@ -25,6 +25,7 @@
             @for(task of column.todos; track task.id) {
             <div
               cdkDrag
+              (click)="openDialog(task)"
               class="bg-white shadow p-2 rounded mt-2 border-b border-x-gray-300 cursor-pointer hover:bg-gray-400"
             >
               {{ task.title }}
